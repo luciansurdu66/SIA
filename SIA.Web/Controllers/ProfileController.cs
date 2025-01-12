@@ -17,6 +17,14 @@ namespace SIA.Web.Controllers
         private readonly IStudentProfileService _studentProfileService = studentProfileService;
         private readonly IMapper _mapper = mapper;
 
+        [HttpGet("student")]
+        [Authorize(Roles = Roles.Student)]
+        public async Task<IActionResult> RetrieveStudentProfile()
+        {
+            StudentProfile studentProfile = await _studentProfileService.GetAsync(User);
+            return ResponseHandler.HandleResponse(_mapper.Map<StudentProfileDto>(studentProfile));
+        }
+
         [HttpPut("student")]
         [Authorize(Roles = Roles.Student)]
         public async Task<IActionResult> UpdateStudentProfile([FromForm] StudentProfileDto studentProfileDto)
