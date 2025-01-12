@@ -38,7 +38,17 @@ const ProfilePage: React.FC = () => {
     if (!userProfile) {
         return <div>No user data available</div>;
     }
+    const renderAttributes = (profile: any) => {
+        const attributes = Object.keys(profile).filter(
+            (key) => key !== "id" && key !== "user_id" && key !== "role" && key !== "email"
+        );
 
+        return attributes.map((key) => (
+            <p className="text-base mb-4" key={key}>
+                {`${key.replace(/_/g, " ")}: ${profile[key]}`}
+            </p>
+        ));
+    };
     return (
         <div className="flex flex-col h-screen bg-background_secondary ">
             <GuestNavbar />
@@ -47,33 +57,14 @@ const ProfilePage: React.FC = () => {
                 {userProfile.role === "student" ? (
                     <div className="w-full max-w-2xl p-8 bg-white shadow-lg rounded-lg">
                         <h2 className="text-2xl mb-4">Student Profile</h2>
-                        <p className="text-base mb-4">Name: {(userProfile as StudentProfile).full_name}</p>
                         <p className="text-base mb-4">Email: {userProfile.email}</p>
-                        <p className="text-base mb-4">Phone Number: {(userProfile as StudentProfile).phone_number}</p>
-                        <p className="text-base mb-4">Age: {(userProfile as StudentProfile).age}</p>
-                        <p className="text-base mb-4">Location: {(userProfile as StudentProfile).location}</p>
-                        <p className="text-base mb-4">Study Institution: {(userProfile as StudentProfile).study_institution}</p>
-                        <p className="text-base mb-4">Study Degree: {(userProfile as StudentProfile).study_degree}</p>
-                        <p className="text-base mb-4">Expected Graduation Date: {(userProfile as StudentProfile).expected_graduation_date}</p>
-                        <p className="text-base mb-4">High School: {(userProfile as StudentProfile).high_school}</p>
-                        <p className="text-base mb-4">Hard Skills: {(userProfile as StudentProfile).hard_skills}</p>
-                        <p className="text-base mb-4">Soft Skills: {(userProfile as StudentProfile).soft_skills}</p>
-                        <p className="text-base mb-4">Personal Projects: {(userProfile as StudentProfile).personal_projects}</p>
-                        <p className="text-base mb-4">Achievements: {(userProfile as StudentProfile).achievements}</p>
-                        <p className="text-base mb-4">Extracurricular Activities: {(userProfile as StudentProfile).extracurricular_activities}</p>
-                        <p className="text-base mb-4">Languages: {(userProfile as StudentProfile).languages}</p>
-                        <p className="text-base mb-4">Career Objectives: {(userProfile as StudentProfile).career_objectives}</p>
+                        {renderAttributes(userProfile as StudentProfile)}
                     </div>
                 ) : (
                     <div className="w-full max-w-2xl p-8 bg-white shadow-lg rounded-lg">
                         <h2 className="text-2xl mb-4">Company Profile</h2>
-                        <p className="text-base mb-4">Name: {(userProfile as CompanyProfile).name}</p>
                         <p className="text-base mb-4">Email: {userProfile.email}</p>
-                        <p className="text-base mb-4">Description: {(userProfile as CompanyProfile).description}</p>
-                        <p className="text-base mb-4">Field: {(userProfile as CompanyProfile).field}</p>
-                        <p className="text-base mb-4">Location: {(userProfile as CompanyProfile).location}</p>
-                        <p className="text-base mb-4">Website: {(userProfile as CompanyProfile).website}</p>
-                        <p className="text-base mb-4">Is Active: {(userProfile as CompanyProfile).is_active ? "Yes" : "No"}</p>
+                        {renderAttributes(userProfile as CompanyProfile)}
                     </div>
                 )}
             </div>

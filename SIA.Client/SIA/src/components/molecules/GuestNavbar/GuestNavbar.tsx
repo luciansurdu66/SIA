@@ -6,7 +6,10 @@ import { routesNames } from "../../../routes/routes";
 interface GuestNavbarProps {}
 
 const GuestNavbar: React.FC<GuestNavbarProps> = () => {
-    const { isAuthenticated, userId, logout } = useAuth();
+    const { isAuthenticated, userId, userName, logout } = useAuth();
+    const handleLogout = () => {
+        logout();
+    }
 
     return (
         <div className="flex justify-between items-center border-b border-border_color bg-background px-8 py-4">
@@ -14,6 +17,7 @@ const GuestNavbar: React.FC<GuestNavbarProps> = () => {
                 SIA
             </Link>
             <div className="flex items-center px-4">
+                {isAuthenticated && <div className="mr-4 px-2">Welcome, {userName}</div>}
                 <Link to={routesNames.home} className="mr-4 px-2">
                     Home
                 </Link>
@@ -21,11 +25,12 @@ const GuestNavbar: React.FC<GuestNavbarProps> = () => {
                 <div className="mr-4 px-2">Contact</div>
                 {isAuthenticated ? (
                     <>
+                        
                         <Link to={`${routesNames.profile.replace(":id", userId?.toString() || "")}`}>
                             <div className="mr-4 px-2">Profile</div>
                         </Link>
                         <button
-                            onClick={logout}
+                            onClick={handleLogout}
                             className="rounded-md bg-primary text-primary_text_color px-4 py-2"
                         >
                             Logout

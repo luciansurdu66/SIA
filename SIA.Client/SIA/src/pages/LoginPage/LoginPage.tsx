@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
         );
         if (user) {
             console.log("Login successful", { email, password });
-            login(user.id, user.role);
+            login(user.id, user.email, user.role); // Assuming email is used as the name
             navigate("/");
         } else {
             console.log("Invalid credentials");
@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
         console.log("Register", { email, password, userType });
         // Assume registration is successful and log in the user
         const newUserId = mockUsers.length + 1; // Mock new user ID
-        login(newUserId, userType);
+        login(newUserId, email, userType);
         navigate("/");
     };
 
