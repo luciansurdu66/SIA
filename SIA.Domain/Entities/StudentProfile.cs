@@ -1,12 +1,14 @@
 ﻿namespace SIA.Domain.Entities
 {
-    public class Student
+    public class StudentProfile
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public DateTime Birthdate { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public DateTime? Birthdate { get; set; }
         public string ProfilePictureType { get; set; }
-        public byte[] ProfilePicture { get; set; }
+        public byte[] ProfilePictureData { get; set; }
         public string Location { get; set; }
         public string StudyInstitution { get; set; }
         public string StudyDegree { get; set; }
@@ -19,6 +21,10 @@
         public string ExtraActivities { get; set; }
         public string Languages { get; set; }
         public string CareerObjectives { get; set; }
+        public string LinkedIn { get; set; }
+        public string Instagram { get; set; }
+        public string Facebook { get; set; }
+        public string Website { get; set; }
 
         // Entity Framework navigation properties
         public User User { get; set; }

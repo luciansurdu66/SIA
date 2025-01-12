@@ -19,7 +19,7 @@
         public string AdditionalInfo { get; set; }
 
         // Entity Framework navigation properties
-        public Company Company { get; set; }
+        public CompanyProfile Company { get; set; }
         public ICollection<Application> Applications { get; set; } = [];
     }
 }

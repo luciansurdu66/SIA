@@ -6,8 +6,8 @@ namespace SIA.Infrastructure
 {
     public class SiaDbContext(DbContextOptions<SiaDbContext> options) : IdentityDbContext<User>(options)
     {
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<CompanyProfile> Companies { get; set; }
+        public DbSet<StudentProfile> Students { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Internship> Internships { get; set; }
         public DbSet<Application> Applications { get; set; }
@@ -38,14 +38,14 @@ namespace SIA.Infrastructure
                 .HasForeignKey(d => d.ApplicationId);
 
             builder.Entity<User>()
-                .HasOne(u => u.Student)
+                .HasOne(u => u.StudentProfile)
                 .WithOne(s => s.User)
-                .HasForeignKey<Student>(s => s.UserId);
+                .HasForeignKey<StudentProfile>(s => s.UserId);
 
             builder.Entity<User>()
-                .HasOne(u => u.Company)
+                .HasOne(u => u.CompanyProfile)
                 .WithOne(s => s.User)
-                .HasForeignKey<Company>(s => s.UserId);
+                .HasForeignKey<CompanyProfile>(s => s.UserId);
 
             builder.Entity<Message>()
                 .HasOne(m => m.SenderUser)

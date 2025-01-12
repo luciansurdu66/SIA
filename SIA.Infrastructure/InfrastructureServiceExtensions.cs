@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SIA.Core.Contracts.Repository;
+using SIA.Infrastructure.Repositories;
 
 namespace SIA.Infrastructure
 {
@@ -17,7 +19,7 @@ namespace SIA.Infrastructure
             #endregion
 
             #region Repository
-
+            services.AddScoped<IStudentProfileRepository, StudentProfileRepository>();
             #endregion
 
             #region Third Parties
