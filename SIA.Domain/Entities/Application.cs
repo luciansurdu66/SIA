@@ -12,7 +12,7 @@ namespace SIA.Domain.Entities
         public DateTime SubmissionDate { get; set; }
 
         // Entity Framework navigation properties
-        public Student Student { get; set; }
+        public StudentProfile Student { get; set; }
         public Internship Intership { get; set; }
         public ICollection<Document> Documents { get; set; } = [];
     }

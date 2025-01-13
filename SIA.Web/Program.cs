@@ -6,6 +6,8 @@ using SIA.Common.Constants;
 using SIA.Core;
 using SIA.Domain.Entities;
 using SIA.Infrastructure;
+using SIA.Web.Mapping;
+using SIA.Web.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +48,8 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddCoreServices();
 builder.Services.AddInsfrastructureServices(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
+builder.Services.AddSingleton<ErrorHandlerMiddleware>();
 builder.Services.AddCors();
 
 #region Authentication
@@ -76,6 +80,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 #region Identity
 using (var scope = app.Services.CreateScope())
