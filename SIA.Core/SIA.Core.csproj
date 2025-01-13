@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Companies\Internships\" />
+    <Folder Include="Features\Students\Applications\" />
+  </ItemGroup>
+
 </Project>
