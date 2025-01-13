@@ -11,21 +11,21 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SIA.Core.Features.Students.Auth
+namespace SIA.Core.Features.Companies.Auth
 {
-    public class StudentAuthService(UserManager<User> userManager,
+    public class CompanyAuthService(UserManager<User> userManager,
         SignInManager<User> signInManager,
         RoleManager<IdentityRole> roleManager,
-        IStudentProfileRepository studentProfileRepository,
-        IConfiguration configuration) : IStudentAuthService
+        ICompanyProfileRepository companyProfileRepository,
+        IConfiguration configuration) : ICompanyAuthService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly SignInManager<User> _signInManager = signInManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
-        private readonly IStudentProfileRepository _studentProfileRepository = studentProfileRepository;
+        private readonly ICompanyProfileRepository _companyProfileRepository = companyProfileRepository;
         private readonly IConfiguration _configuration = configuration;
 
-        public async Task<string> LogInStudent(AuthInput input)
+        public async Task<string> LogInCompany(AuthInput input)
         {
             User user = await _userManager.FindByEmailAsync(input.Email);
             if (user is null)
@@ -34,9 +34,9 @@ namespace SIA.Core.Features.Students.Auth
             }
 
             IList<string> userRoles = await _userManager.GetRolesAsync(user);
-            if (!userRoles.Contains(Roles.Student))
+            if (!userRoles.Contains(Roles.Company))
             {
-                throw new NotFoundException("There is no student account associated with this e-mail");
+                throw new NotFoundException("There is no company account associated with this e-mail");
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, input.Password, isPersistent: true, lockoutOnFailure: false);
@@ -48,7 +48,7 @@ namespace SIA.Core.Features.Students.Auth
             return await GenerateJwtToken(user);
         }
 
-        public async Task RegisterStudent(AuthInput input)
+        public async Task RegisterCompany(AuthInput input)
         {
             User user = new User { UserName = input.Email, Email = input.Email };
             var result = await _userManager.CreateAsync(user, input.Password);
@@ -58,14 +58,14 @@ namespace SIA.Core.Features.Students.Auth
             }
 
             user = await _userManager.FindByEmailAsync(input.Email);
-            await _userManager.AddToRoleAsync(user, Roles.Student);
+            await _userManager.AddToRoleAsync(user, Roles.Company);
 
-            StudentProfile studentProfile = new()
+            CompanyProfile companyProfile = new()
             {
                 UserId = user.Id,
                 User = user,
             };
-            await _studentProfileRepository.AddAsync(studentProfile);
+            await _companyProfileRepository.AddAsync(companyProfile);
         }
 
         private async Task<string> GenerateJwtToken(User user)

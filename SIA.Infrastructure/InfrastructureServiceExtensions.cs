@@ -20,6 +20,7 @@ namespace SIA.Infrastructure
 
             #region Repository
             services.AddScoped<IStudentProfileRepository, StudentProfileRepository>();
+            services.AddScoped<ICompanyProfileRepository, CompanyProfileRepository>();
             #endregion
 
             #region Third Parties

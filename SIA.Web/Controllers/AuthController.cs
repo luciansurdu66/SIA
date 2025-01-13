@@ -43,5 +43,31 @@ namespace SIA.Web.Controllers
             string token = await _studentAuthService.LogInStudent(_mapper.Map<AuthInput>(inputDto));
             return ResponseHandler.HandleResponse(new { Token = token });
         }
+
+        [HttpPost("company/register")]
+        public async Task<IActionResult> RegisterCompany([FromBody] AuthInputDto inputDto)
+        {
+            ICollection<string> errors = AuthValidators.ValidateAuthInput(inputDto);
+            if (errors.Any())
+            {
+                return ResponseHandler.HandleResponse(errors);
+            }
+
+            await _studentAuthService.RegisterStudent(_mapper.Map<AuthInput>(inputDto));
+            return await SignInCompany(inputDto);
+        }
+
+        [HttpPost("company/login")]
+        public async Task<IActionResult> SignInCompany([FromBody] AuthInputDto inputDto)
+        {
+            ICollection<string> errors = AuthValidators.ValidateAuthInput(inputDto);
+            if (errors.Any())
+            {
+                return ResponseHandler.HandleResponse(errors);
+            }
+
+            string token = await _studentAuthService.LogInStudent(_mapper.Map<AuthInput>(inputDto));
+            return ResponseHandler.HandleResponse(new { Token = token });
+        }
     }
 }

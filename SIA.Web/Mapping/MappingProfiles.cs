@@ -14,6 +14,16 @@ namespace SIA.Web.Mapping
             CreateMap<StudentProfile, StudentProfileDto>()
                 .ForMember(dest => dest.ProfilePicture, opts => opts.Ignore())
                 .ReverseMap();
+
+            CreateMap<CompanyProfile, CompanyProfileDto>()
+                .ReverseMap();
+
+            CreateMap<Internship, InternshipBaseDto>()
+                .ReverseMap();
+
+            CreateMap<Internship, InternshipDto>()
+                .IncludeBase<Internship, InternshipBaseDto>()
+                .ReverseMap();
         }
     }
 }

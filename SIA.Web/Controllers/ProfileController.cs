@@ -12,9 +12,11 @@ namespace SIA.Web.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class ProfileController(IStudentProfileService studentProfileService,
+        ICompanyProfileService companyProfileService,
         IMapper mapper) : ControllerBase
     {
         private readonly IStudentProfileService _studentProfileService = studentProfileService;
+        private readonly ICompanyProfileService _companyProfileService = companyProfileService;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet("student")]
@@ -40,6 +42,27 @@ namespace SIA.Web.Controllers
 
             StudentProfile updatedStudentProfile = await _studentProfileService.UpdateAsync(User, _mapper.Map<StudentProfile>(studentProfileDto), studentProfileDto.ProfilePicture);
             return ResponseHandler.HandleResponse(_mapper.Map<StudentProfileDto>(updatedStudentProfile));
+        }
+
+        [HttpGet("company")]
+        [Authorize(Roles = Roles.Company)]
+        public async Task<IActionResult> RetrieveCompanyProfile()
+        {
+            CompanyProfile companyProfile = await _companyProfileService.GetAsync(User);
+            return ResponseHandler.HandleResponse(_mapper.Map<CompanyProfileDto>(companyProfile));
+        }
+
+        [HttpPut("company")]
+        [Authorize(Roles = Roles.Company)]
+        public async Task<IActionResult> UpdateCompanyProfile([FromBody] CompanyProfileDto companyProfileDto)
+        {
+            if (companyProfileDto is null)
+            {
+                return ResponseHandler.HandleResponse("Invalid request!");
+            }
+
+            CompanyProfile updatedCompanyProfile = await _companyProfileService.UpdateAsync(User, _mapper.Map<CompanyProfile>(companyProfileDto));
+            return ResponseHandler.HandleResponse(_mapper.Map<StudentProfileDto>(updatedCompanyProfile));
         }
     }
 }

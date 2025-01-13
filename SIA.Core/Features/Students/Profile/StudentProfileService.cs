@@ -35,7 +35,6 @@ namespace SIA.Core.Features.Students.Profile
             StudentProfile existingStudentProfile = await _studentProfileRepository.GetByUserIdAsync(user.Id);
             SetStudentProfileData(existingStudentProfile, studentProfile, profilePicture);
 
-
             await _studentProfileRepository.UpdateAsync(existingStudentProfile);
             return await _studentProfileRepository.GetByUserIdAsync(user.Id);
         }
