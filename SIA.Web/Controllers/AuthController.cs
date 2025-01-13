@@ -11,10 +11,12 @@ namespace SIA.Web.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class AccountsController(IStudentAuthService studentAuthService,
+        ICompanyAuthService companyAuthService,
         IConfiguration configuration,
         IMapper mapper) : ControllerBase
     {
         private readonly IStudentAuthService _studentAuthService = studentAuthService;
+        private readonly ICompanyAuthService _companyAuthService = companyAuthService;
         private readonly IConfiguration _configuration = configuration;
         private readonly IMapper _mapper = mapper;
 
@@ -53,7 +55,7 @@ namespace SIA.Web.Controllers
                 return ResponseHandler.HandleResponse(errors);
             }
 
-            await _studentAuthService.RegisterStudent(_mapper.Map<AuthInput>(inputDto));
+            await _companyAuthService.RegisterCompany(_mapper.Map<AuthInput>(inputDto));
             return await SignInCompany(inputDto);
         }
 
@@ -66,7 +68,7 @@ namespace SIA.Web.Controllers
                 return ResponseHandler.HandleResponse(errors);
             }
 
-            string token = await _studentAuthService.LogInStudent(_mapper.Map<AuthInput>(inputDto));
+            string token = await _companyAuthService.LogInCompany(_mapper.Map<AuthInput>(inputDto));
             return ResponseHandler.HandleResponse(new { Token = token });
         }
     }
