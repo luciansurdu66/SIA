@@ -12,7 +12,7 @@ const GuestNavbar: React.FC<GuestNavbarProps> = () => {
     }
 
     return (
-        <div className="flex justify-between items-center border-b border-border_color bg-background px-8 py-4">
+        <div className="sticky top-0 z-50 flex justify-between items-center border-b border-border_color bg-background px-8 py-4">
             <Link to={routesNames.home} className="text-2xl font-bold px-4">
                 SIA
             </Link>
@@ -21,8 +21,6 @@ const GuestNavbar: React.FC<GuestNavbarProps> = () => {
                 <Link to={routesNames.home} className="mr-4 px-2">
                     Home
                 </Link>
-                <div className="mr-4 px-2">About</div>
-                <div className="mr-4 px-2">Contact</div>
                 {isAuthenticated ? (
                     <>
                         

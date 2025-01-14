@@ -1,49 +1,12 @@
 import React from "react";
 import { InternshipModel } from "../../../types/InternshipModel.types";
 import InternshipTab from "../InternshipTab/InternshipTab";
-interface SIAWelcomeProps {}
+import {getMockInternships} from "../../../services/internshipService";
+interface SIAWelcomeProps {
+    internships: InternshipModel[];
+}
 
-const SIAWelcome: React.FC<SIAWelcomeProps> = () => {
-    const internships: InternshipModel[] = [
-        {
-            id: 1,
-            company_id: 101,
-            job_title: "Software Engineering Intern",
-            job_description:
-                "Work on developing and maintaining web applications.",
-            position: "Intern",
-            required_qualifications:
-                "Knowledge of JavaScript, React, and Node.js.",
-            duration: "3 months",
-            period: "Summer 2024",
-            location: "Remote",
-            number_of_positions: 2,
-            salary: 3000.0,
-            application_process: "Submit your resume and cover letter.",
-            application_deadline: "2024-05-01",
-            additional_info: "Opportunity to convert to full-time.",
-        },
-        {
-            id: 2,
-            company_id: 102,
-            job_title: "Marketing Intern",
-            job_description:
-                "Assist in developing marketing strategies and campaigns.",
-            position: "Intern",
-            required_qualifications:
-                "Strong communication skills and knowledge of social media platforms.",
-            duration: "6 months",
-            period: "Fall 2024",
-            location: "New York, NY",
-            number_of_positions: 1,
-            salary: 2500.0,
-            application_process:
-                "Submit your portfolio and a brief cover letter.",
-            application_deadline: "2025-08-15",
-            additional_info: "Potential for travel.",
-        },
-    ];
-
+const SIAWelcome: React.FC<SIAWelcomeProps> = ({ internships }) => {
     if (internships?.length === 0) {
         return (
             <div>

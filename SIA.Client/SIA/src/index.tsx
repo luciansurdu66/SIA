@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import React from "react";
-import { AuthProvider } from "./contexts/AuthContext";
+import AppProvider from "./contexts/CompositeProvider/CompositeProvider";
 
 (async () => {
     try {
@@ -12,11 +12,11 @@ import { AuthProvider } from "./contexts/AuthContext";
             document.getElementById("app") as HTMLElement
         );
         root.render(
-            <AuthProvider>
+            <AppProvider>
                 <BrowserRouter>
                     <App />
                 </BrowserRouter>
-            </AuthProvider>
+            </AppProvider>
         );
     } catch (error) {
         console.error(

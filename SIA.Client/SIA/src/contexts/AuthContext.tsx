@@ -1,10 +1,12 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useEffect } from "react";
+import { setAuthToken } from "../services/apiService";
 
 export interface AuthContextProps {
     isAuthenticated: boolean;
-    userId: number | null;
+    token: string | null;
     userType: string | null;
-    login: (id: number, type: string) => void;
+    userName: string | null;
+    login: (token: string, name: string, type: string) => void;
     logout: () => void;
 }
 
@@ -15,9 +17,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const storedAuth = localStorage.getItem("isAuthenticated");
         return storedAuth === "true";
     });
-    const [userId, setUserId] = useState<number | null>(() => {
-        const storedUserId = localStorage.getItem("userId");
-        return storedUserId ? parseInt(storedUserId, 10) : null;
+    const [token, setToken] = useState<string | null>(() => {
+        return localStorage.getItem("token");
     });
     const [userName, setUserName] = useState<string | null>(() => {
         return localStorage.getItem("userName");
@@ -26,30 +27,36 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return localStorage.getItem("userType");
     });
 
-    const login = (id: number, name: string, type: string) => {
+    useEffect(() => {
+        setAuthToken(token);
+    }, [token]);
+
+    const login = (token: string, name: string, type: string) => {
         setIsAuthenticated(true);
-        setUserId(id);
+        setToken(token);
         setUserName(name);
         setUserType(type);
         localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("userId", id.toString());
+        localStorage.setItem("token", token);
         localStorage.setItem("userName", name);
         localStorage.setItem("userType", type);
+        setAuthToken(token);
     };
 
     const logout = () => {
         setIsAuthenticated(false);
-        setUserId(null);
+        setToken(null);
         setUserName(null);
         setUserType(null);
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
         localStorage.removeItem("userName");
         localStorage.removeItem("userType");
+        setAuthToken(null);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userId, userName, userType, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, token, userName, userType, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
